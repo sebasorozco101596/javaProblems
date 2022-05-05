@@ -10,6 +10,7 @@ public class SearchRotatedSortedArray {
         int left = 0;
 
         while (left <= right)  {
+
             if (nums[left] == target) {
                 return left;
             } else if (nums[right] == target) {
@@ -33,5 +34,39 @@ public class SearchRotatedSortedArray {
         }
 
         return -1;
+    }
+
+    // Recursive O(log n )
+    public int searchRecursive(int[] nums, int targer, int startI, int endIndex){
+
+        int middle = (endIndex - startI)/2;
+        if(middle==0){
+            if(nums[startI]==targer){
+                return startI;
+            }else if(nums[endIndex] == targer){
+                return endIndex;
+            }else{
+                return -1;
+            }
+        }
+        int middleIndex = startI + middle;
+        if(nums[startI] <= nums[middleIndex]){
+            if(targer>=nums[startI] && targer<=nums[middleIndex]){
+                return searchRecursive(nums,targer,startI, middleIndex);
+            }else{
+                return searchRecursive(nums,targer,middleIndex, endIndex);
+            }
+        }else if(nums[middleIndex] <= nums[endIndex]){
+            if(targer>=nums[middleIndex] && targer<=nums[endIndex]){
+                return searchRecursive(nums,targer,middleIndex, endIndex);
+            }else{
+                return searchRecursive(nums,targer,startI, middleIndex);
+            }
+        }
+        return -1;
+    }
+
+    public int searchRecursive(int[] nums, int target) {
+        return searchRecursive(nums,target,0,nums.length-1);
     }
 }
